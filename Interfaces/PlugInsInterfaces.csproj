@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E9F76280-130B-4699-9F1B-768ED383B730}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PlugInsInterfaces</RootNamespace>
+    <AssemblyName>PlugInsInterfaces</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataManipulation\IData.cs" />
+    <Compile Include="DataManipulation\IDependable.cs" />
+    <Compile Include="DataManipulation\IDependentItem.cs" />
+    <Compile Include="DataManipulation\IGas.cs" />
+    <Compile Include="DataManipulation\IGDataDictionary.cs" />
+    <Compile Include="DataManipulation\IGroup.cs" />
+    <Compile Include="DataManipulation\IMonitor.cs" />
+    <Compile Include="DataManipulation\IParameter.cs" />
+    <Compile Include="DataManipulation\IPicture.cs" />
+    <Compile Include="DataManipulation\Process\IInput.cs" />
+    <Compile Include="DataManipulation\IInputTable.cs" />
+    <Compile Include="DataManipulation\ILocation.cs" />
+    <Compile Include="DataManipulation\Process\Transportation\IAMode.cs" />
+    <Compile Include="DataManipulation\Pathway\IPathway.cs" />
+    <Compile Include="DataManipulation\Pathway\IProcessReference.cs" />
+    <Compile Include="DataManipulation\IUnit.cs" />
+    <Compile Include="DataManipulation\IUnitGroup.cs" />
+    <Compile Include="DataManipulation\Mix\IMix.cs" />
+    <Compile Include="DataManipulation\Process\IProcess.cs" />
+    <Compile Include="DataManipulation\Mix\IProductionItem.cs" />
+    <Compile Include="DataManipulation\IProject.cs" />
+    <Compile Include="DataManipulation\Process\Transportation\IModeFuelShare.cs" />
+    <Compile Include="DataManipulation\Process\Transportation\ITransportationProcess.cs" />
+    <Compile Include="DataManipulation\Process\Transportation\ITransportationStep.cs" />
+    <Compile Include="DataManipulation\Resource\IEvaporatedGas.cs" />
+    <Compile Include="DataManipulation\Resource\IInputResourceReference.cs" />
+    <Compile Include="DataManipulation\Resource\IResource.cs" />
+    <Compile Include="DataManipulation\Technology\IEmissionsFactors.cs" />
+    <Compile Include="DataManipulation\Technology\ITechnology.cs" />
+    <Compile Include="DataManipulation\Vehicle\IVehicle.cs" />
+    <Compile Include="DataManipulation\IXmlObj.cs" />
+    <Compile Include="DataManipulation\PluginEnums.cs" />
+    <Compile Include="DataManipulation\Technology\IYearEmissionFactors.cs" />
+    <Compile Include="DataManipulation\Vehicle\ICdMode.cs" />
+    <Compile Include="DataManipulation\Vehicle\ICsMode.cs" />
+    <Compile Include="DataManipulation\Vehicle\IVehicleEmissions.cs" />
+    <Compile Include="DataManipulation\Vehicle\IVehicleMode.cs" />
+    <Compile Include="Controls\IParameterTextBox.cs" />
+    <Compile Include="ResultTypes\ISimulationRun.cs" />
+    <Compile Include="IGREETController.cs" />
+    <Compile Include="PluginTypes\APlugin.cs" />
+    <Compile Include="ResultTypes\IResults.cs" />
+    <Compile Include="ResultTypes\IResultValue.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataManipulation\Process\Stationary\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
