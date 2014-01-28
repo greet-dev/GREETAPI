@@ -111,16 +111,22 @@ namespace PlugInsInterfaces.DataTypes
         IGDataDictionary<string, IInputTable> InputTables { get; }
 
         /// <summary>
-        /// Returns a dictionary type object containing pictures; see IGDataDictionary for details on implementation
+        /// Returns a dictionary type object containing Pictures; see IGDataDictionary for details on implementation
         /// </summary>
         [Obfuscation(Feature = "renaming", Exclude = true)]
         IGDataDictionary<string, IPicture> Pictures { get; }
 
         /// <summary>
-        /// Returns a dictionary type object containing pictures; see IGDataDictionary for details on implementation
+        /// Returns a dictionary type object containing Parameters; see IGDataDictionary for details on implementation
         /// </summary>
         [Obfuscation(Feature = "renaming", Exclude = true)]
         IGDataDictionary<string, IParameter> Parameters { get; }
+
+        /// <summary>
+        /// Returns a dictionary type object containing  parameters aliases
+        /// </summary>
+        [Obfuscation(Feature = "renaming", Exclude = true)]
+        Dictionary<string, string> ParametersAliases { get; }
 
         /// <summary>
         /// Returns the available groups for Resources
