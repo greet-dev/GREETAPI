@@ -75,18 +75,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PlugInsInterfaces\PlugInsInterfaces.csproj">
-      <Project>{E9F76280-130B-4699-9F1B-768ED383B730}</Project>
-      <Name>PlugInsInterfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="UI\ParameterExplorer.resx">
       <DependentUpon>ParameterExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ParameterProperties.resx">
       <DependentUpon>ParameterProperties.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Interfaces\PlugInsInterfaces.csproj">
+      <Project>{E9F76280-130B-4699-9F1B-768ED383B730}</Project>
+      <Name>PlugInsInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
