@@ -41,6 +41,9 @@ using PlugInsInterfaces.DataTypes;
 
 namespace Example2.UI
 {
+    /// <summary>
+    /// Allows the user to explore IParameters that are inputs of the model, modify a value and run the simulations
+    /// </summary>
     public partial class ParameterExplorer : Form
     {
         public ParameterExplorer()
@@ -55,26 +58,50 @@ namespace Example2.UI
         /// </summary>
         public void InitializeControls()
         {
-            IGDataDictionary<string, IParameter> resources = ParametersExample.controler.CurrentProject.Data.Parameters;
+            //Gets the dictionary of IParameters object indexed by IParameters.Id
+            //Parameters are used to store all input data necessary to the model (flows quantities, shares, heating values, carbon ratios, emission factors...
+            IGDataDictionary<string, IParameter> parameters = ParametersExample.controler.CurrentProject.Data.Parameters;
 
             this.listBox1.Items.Clear();
-            foreach (IParameter param in resources.AllValues.OrderBy(item => item.Id))
+
+            //Adding all parameters to the list box items so user can select a parameter
+            foreach (IParameter param in parameters.AllValues.OrderBy(item => item.Id))
             {
                 this.listBox1.Items.Add(param);       
             }
         }
 
+        /// <summary>
+        /// Invoked when the user selects a new parameter in the list
+        /// Displays the attributes for that parameter in the user control ParameterProperties
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Object selectedItem = this.listBox1.SelectedItem;
+
+            //If the user selected something that corresponds to a parameter we call a method in the ParametersProperty control
             if (selectedItem != null && selectedItem is IParameter)
                 this.parameterProperties1.SetParameter(selectedItem as IParameter);
         }
 
+        /// <summary>
+        /// Invoked when the user clicks on the button with the text "Run Simulation"
+        /// This then calls for a method in the IGreetControler in order to re-run the simulations
+        /// 
+        /// Results may be different if the user modified one of the parameters using the Parameters Property control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
+            //Asks the controler to run the simulations asynchronouly
             //ParametersExample.controler.RunSimalationAsync();
+
+            //Asks the controler to run the simulation and wait until they end before continuing
             ParametersExample.controler.RunSimalation(false);
+
             MessageBox.Show("Simulation Complete");
         }
     }
