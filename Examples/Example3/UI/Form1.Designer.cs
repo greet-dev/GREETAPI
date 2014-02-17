@@ -44,11 +44,11 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(363, 103);
+            this.button2.Location = new System.Drawing.Point(366, 92);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(117, 66);
             this.button2.TabIndex = 1;
-            this.button2.Text = "Pull User Entered Values";
+            this.button2.Text = "Pull User Values From GREET";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -166,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 239);
+            this.ClientSize = new System.Drawing.Size(829, 239);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label11);
@@ -180,7 +180,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Example 3";
             this.ResumeLayout(false);
             this.PerformLayout();
 
