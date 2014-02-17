@@ -22,17 +22,17 @@ Examples source code can be downloaded and tested by following these instruction
 
     1) Download the Interfaces and examples on the GitHub repository
     2) Extract and open the GreetAPI-Examples.sln using VisualStudio 2010 or above:
-    3) We need to configure Visual Studio so that it runs GREET and automatically load the plug-ins in debug mode. This allows you to debug your work using the Visual Studio IDE.
+    3) We need to configure Visual Studio so that it runs GREET and automatically load the plug-ins in debug mode.       This allows you to debug your work using the Visual Studio IDE.
     In order to do so we'll need to configure the Debug and Post-Build actions for all projects under the solution.
     First right click the Example1 project and select "Properties"
     4) In the properties pane, select the "Debug" tab
-    In the debug tab edit the paths to the greet executable. GREET is installed in a sub-folder of your personal folder, but the easiest way to find the exact location is by running GREET, then click the "About" menu, then "About..." A new window will pop up, the installation location can be seen at the bottom.
+    In the debug tab edit the paths to the greet executable. GREET is installed in a sub-folder of your personal         folder, but the easiest way to find the exact location is by running GREET, then click the "About" menu, then        "About..." A new window will pop up, the installation location can be seen at the bottom.
     5) In the properties pane, select now the "Build" tab
     In the build tab edit the path to GREET with your own folder path.
-    It is also possible to copy the plugins in the folder "My Documents\Greet\Plugins\". GREET checks if that folder contains plugins at startup. See more details in the following chapter about the plugins life cycle.
-    If you choose to do so, replace the path to greet with the "My Documents\Greet\Plugins\" folder in the Post-build event command line.
+    It is also possible to copy the plugins in the folder "My Documents\Greet\Plugins\". GREET checks if that folder     contains plugins at startup. See more details in the following chapter about the plugins life cycle.
+    If you choose to do so, replace the path to greet with the "My Documents\Greet\Plugins\" folder in the Post-build     event command line.
     6) Test your plugin by starting it in Debug mode:
-    When running in Debug mode you can put breakpoints in your code and easily follow the execution of the program for your plugin.
+    When running in Debug mode you can put breakpoints in your code and easily follow the execution of the program       for your plugin.
     For this example you should see the menu item "Example1" created by the plugin.
 
 Plugin Life Cycle
