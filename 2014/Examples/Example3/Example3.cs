@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PlugInsInterfaces.PluginTypes;
-using PlugInsInterfaces;
 using System.Reflection;
 using System.Windows.Forms;
-using Example1.UI;
+using Greet.DataStructureV3.Interfaces;
+using Greet.Model.Interfaces;
+using Greet.Plugins.Example3.UI;
 
-namespace Example1
+namespace Greet.Plugins.Example3
 {
     /// <summary>
     /// This plugin example shows a very simple way to grab results from the GREET calculated pathways

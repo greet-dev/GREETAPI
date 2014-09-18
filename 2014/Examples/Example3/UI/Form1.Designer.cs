@@ -1,4 +1,4 @@
-﻿namespace Example1.UI
+﻿namespace Greet.Plugins.Example3.UI
 {
     partial class Form1
     {

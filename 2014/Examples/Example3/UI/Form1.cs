@@ -6,13 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using PlugInsInterfaces.DataTypes.Resource;
-using PlugInsInterfaces.DataTypes;
-using PlugInsInterfaces.DataTypes.Pathway;
-using PlugInsInterfaces.DataTypes.Mix;
-using PlugInsInterfaces.ResultTypes;
+using Greet.DataStructureV3.Interfaces;
 
-namespace Example1.UI
+namespace Greet.Plugins.Example3.UI
 {
     
     public partial class Form1 : Form
