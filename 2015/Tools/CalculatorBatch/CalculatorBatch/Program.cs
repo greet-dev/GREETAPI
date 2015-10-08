@@ -32,10 +32,11 @@ namespace CalculatorBatch
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            #region preproceiing parsing the user inputs
             Console.WriteLine("Parsing given parameters...");
             //Using the filename provided as the first argument
             string fileName = args[0];
-
+            
             //Using the years defined in the second argument
             string years = args[1];
             string[] yearsSplit = years.Split(',');
@@ -68,7 +69,9 @@ namespace CalculatorBatch
                     }
                 }
             }
+            #endregion 
 
+            #region loading units file and data file
             Console.WriteLine("Building units context...");
             //Build units context before loading the database
             Units.BuildContext();
@@ -77,7 +80,9 @@ namespace CalculatorBatch
             //Loading the database
             GProject project = new GProject();
             project.Load(fileName);
+            #endregion
 
+            #region preprocessing the pathways/mixes we want to record by finding their main output resource
             //Assign main output resource IDs to all the inputsResourceReferences
             foreach (InputResourceReference iref in inRef)
             {
@@ -87,14 +92,16 @@ namespace CalculatorBatch
                         iref.ResourceId = project.Dataset.PathwaysData[iref.SourceMixOrPathwayID].MainOutputResourceID;
                 }
                 else if (iref.SourceType == Greet.DataStructureV4.Interfaces.Enumerators.SourceType.Mix)
-                {
+                { 
                     if (project.Dataset.MixesData.ContainsKey(iref.SourceMixOrPathwayID))
                         iref.ResourceId = project.Dataset.MixesData[iref.SourceMixOrPathwayID].MainOutputResourceID;
                 }
             }
+            #endregion
 
+            #region running the calculations for each year and storing the results
             //Creating a new instance of a dictionary used to store results of the simulations
-            Dictionary<InputResourceReference, Dictionary<int, Results>> savedResults = new Dictionary<InputResourceReference, Dictionary<int, Results>>();
+            Dictionary<InputResourceReference, Dictionary<int, Results>> savedResults = new Dictionary<InputResourceReference, Dictionary<int, Results>>();   
 
             //Running simulations for every provided years
             foreach (int simulationYear in yearsList)
@@ -103,23 +110,23 @@ namespace CalculatorBatch
                 //Set the current year for simulations
                 BasicParameters.SelectedYear = project.Dataset.ParametersData.CreateUnregisteredParameter(project.Dataset, "", simulationYear);
                 Calculator calc = new Calculator();
-
+               
                 //Run the simulations for the loaded project and defined year, we need to wait completion as the RunCalculationMethod is Async
                 var manualEvent = new ManualResetEvent(false);
                 calc.CalculationDoneEvent += () => manualEvent.Set();
                 calc.RunCalculations(project);
                 manualEvent.WaitOne();
-
+             
                 //Loop over all the pathways and mixes ID that we wish to save
                 foreach (InputResourceReference pathMixToSave in inRef)
                 {
                     if (!savedResults.ContainsKey(pathMixToSave))
                         savedResults.Add(pathMixToSave, new Dictionary<int, Results>());
-                    if (!savedResults[pathMixToSave].ContainsKey(simulationYear))
+                    if(!savedResults[pathMixToSave].ContainsKey(simulationYear))
                     {
                         //Pull the results and add them to the dictionary used to store results
                         Results results;
-                        if (pathMixToSave.SourceType == Enumerators.SourceType.Pathway)
+                        if(pathMixToSave.SourceType == Enumerators.SourceType.Pathway)
                             results = Convenience.Clone(project.Dataset.PathwaysData[pathMixToSave.SourceMixOrPathwayID].getMainOutputResults().Results);
                         else
                             results = Convenience.Clone(project.Dataset.MixesData[pathMixToSave.SourceMixOrPathwayID].getMainOutputResults().Results);
@@ -127,7 +134,9 @@ namespace CalculatorBatch
                     }
                 }
             }
+            #endregion
 
+            #region exporting all the results in a text file per pathway and per mix
             //Export all the desired results to an Excel spreadsheet
             Console.WriteLine("Export all selected results...");
             string preferedMass = "g";
@@ -138,18 +147,29 @@ namespace CalculatorBatch
             {
                 DataTable dt = new DataTable();
                 List<string> resGroups = new List<string>() { "Total Energy", "Fossil Fuel", "Coal Fuel", "Natural Gas Fuel", "Petroleum Fuel", "Water" };
-                List<string> pollutants = new List<string>() { "VOC", "CO", "NOx", "PM10", "PM2.5", "SOx", "BC", "POC", "CH4", "N2O", "CO2" };
+                List<string> pollutants = new List<string>() { "VOC", "CO", "NOx", "PM10", "PM2.5", "SOx", "BC", "POC", "CH4", "N2O", "CO2", "CO2_Biogenic" };
                 List<string> polGroups = new List<string>() { "GHG-100" };
                 List<string> urbanPoll = new List<string>() { "VOC", "CO", "NOx", "PM10", "PM2.5", "SOx", "BC", "POC", "CH4", "N2O" };
 
-                dt.Columns.Add("Items");
+                Results resultsFU = pair.Value.Values.FirstOrDefault();
+                string functionalUnit = "Per ";
+                if (resultsFU != null)
+                    functionalUnit += GetPreferedVisualizationFunctionalUnitString(project.Dataset, resultsFU, pair.Key.ResourceId);
+
+                dt.Columns.Add("Items " + functionalUnit);
                 foreach (int simulationYear in pair.Value.Keys)
                     dt.Columns.Add(simulationYear.ToString());
                 List<string> rowString = new List<string>();
+
+                #region total energy and energy groups
                 foreach (string resGrp in resGroups)
                 {
                     rowString = new List<string>();
-                    rowString.Add(resGrp);
+                    if (resGrp=="Water")
+                        rowString.Add(resGrp+" ("+preferedVolume+")");
+                    else
+                        rowString.Add(resGrp + " (" + preferedEnergy + ")");
+
                     foreach (int simulationYear in pair.Value.Keys)
                     {
                         Results results = pair.Value[simulationYear];
@@ -163,22 +183,29 @@ namespace CalculatorBatch
                         else
                         {
                             Dictionary<int, IValue> resGroupes = results.WellToProductResourcesGroups(project.Dataset);
-                            int resGrpId = project.Dataset.ResourcesData.Groups.Values.Single(item => item.Name == resGrp).Id;
-                            LightValue groupValue = new LightValue(resGroupes[resGrpId].Value, resGroupes[resGrpId].UnitExpression);
-                            if (groupValue.Dim == DimensionUtils.ENERGY)
-                                rowString.Add(NiceValueWithAttribute(groupValue * amountRatio, preferedEnergy));
+                            Group resGrpSelected = project.Dataset.ResourcesData.Groups.Values.SingleOrDefault(item => item.Name == resGrp);
+                            if (resGrpSelected != null)
+                            {
+                                int resGrpId = resGrpSelected.Id;
+                                LightValue groupValue = new LightValue(resGroupes[resGrpId].Value, resGroupes[resGrpId].UnitExpression);
+                                if (groupValue.Dim == DimensionUtils.ENERGY)
+                                    rowString.Add(NiceValueWithAttribute(groupValue * amountRatio, preferedEnergy));
+                                else
+                                    rowString.Add(NiceValueWithAttribute(groupValue * amountRatio, preferedVolume));
+                            }
                             else
-                                rowString.Add(NiceValueWithAttribute(groupValue * amountRatio, preferedVolume));
+                                rowString.Add("0");
                         }
                     }
                     dt.Rows.Add(rowString.ToArray());
                 }
+                #endregion
 
-
+                #region wtp emissions
                 foreach (string poll in pollutants)
                 {
                     rowString = new List<string>();
-                    rowString.Add(poll);
+                    rowString.Add(poll+" ("+preferedMass+")");
                     foreach (int simulationYear in pair.Value.Keys)
                     {
                         Results results = pair.Value[simulationYear];
@@ -191,44 +218,54 @@ namespace CalculatorBatch
                     }
                     dt.Rows.Add(rowString.ToArray());
                 }
+                #endregion
 
-
+                #region wtp Groups (here only GHG 100)
                 foreach (string resGrp in polGroups)
                 {
                     rowString = new List<string>();
-                    rowString.Add(resGrp);
+                    rowString.Add(resGrp+ " ("+ preferedMass+")");
                     foreach (int simulationYear in pair.Value.Keys)
                     {
                         Results results = pair.Value[simulationYear];
                         double amountRatio = GetFunctionalRatio(project.Dataset, results, pair.Key.ResourceId);
 
                         Dictionary<int, IValue> emGroupes = pair.Value[simulationYear].WellToProductEmissionsGroups(project.Dataset);
-                        int grpId = project.Dataset.GasesData.Groups.Values.Single(item => item.Name == resGrp).Id;
-                        rowString.Add(NiceValueWithAttribute(new LightValue(emGroupes[grpId].Value, emGroupes[grpId].UnitExpression) * amountRatio, preferedMass));
+                        Group resGrpSelected = project.Dataset.GasesData.Groups.Values.SingleOrDefault(item => item.Name == resGrp);
+                        if (resGrpSelected != null)
+                        {
+                            int grpId = resGrpSelected.Id;
+                            rowString.Add(NiceValueWithAttribute(new LightValue(emGroupes[grpId].Value, emGroupes[grpId].UnitExpression) * amountRatio, preferedMass));
+                        }
+                        else
+                            rowString.Add("0");
                     }
                     dt.Rows.Add(rowString.ToArray());
                 }
+                #endregion
 
-
+                #region urban emissions
                 foreach (string poll in pollutants)
                 {
                     rowString = new List<string>();
-                    rowString.Add(poll);
+                    rowString.Add("Urban " +poll+" ("+preferedMass+")");
                     foreach (int simulationYear in pair.Value.Keys)
                     {
                         Results results = pair.Value[simulationYear];
                         double amountRatio = GetFunctionalRatio(project.Dataset, results, pair.Key.ResourceId);
-
+                        
                         int polId = project.Dataset.GasesData.Values.Single(item => item.Name == poll).Id;
                         rowString.Add(NiceValueWithAttribute(new LightValue(results.wellToProductUrbanEmission[polId], DimensionUtils.MASS) * amountRatio, preferedMass));
                     }
                     dt.Rows.Add(rowString.ToArray());
                 }
+                #endregion
 
 
                 string value = ConvertDataTableToString(dt);
                 System.IO.File.WriteAllText("Results-" + pair.Key.SourceType.ToString() + "-" + pair.Key.SourceMixOrPathwayID.ToString() + ".txt", value);
             }
+            #endregion
         }
 
         /// <summary>
@@ -357,13 +394,13 @@ namespace CalculatorBatch
             double automaticScalingSlope = 1;
             string overrideUnitAttribute = "";
             return GuiUtils.FormatSIValue(value.Value
-                , 0
+                , 2 //DEFINES THE FORMATTING FOR VALUES
                 , out overrideUnitAttribute
                 , out automaticScalingSlope
                 , false
-                , 4
+                , 16 //DEFINES HOW MANY DIGITS YOU WANT TO SEE
                 , value.Dim
-                , preferedExpression) + " " + overrideUnitAttribute;
+                , preferedExpression);// +" " + overrideUnitAttribute;
         }
     }
 }
