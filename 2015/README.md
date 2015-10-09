@@ -20,12 +20,7 @@ Examples source code can be downloaded and tested by following these instruction
     7) Test your plugin by starting it in Debug mode:
     When running in Debug mode you can put breakpoints in your code and easily follow the execution of the program for your plugin.
     For this example you should see the menu item "Example1" created by the plugin.
-    
-GREET 2015 API Tools
-====================    
-    
-The tools are running independently from the main GREET application but are using the same libraries. In order to run the tools which are command line executables. Open the solution in Visual Studio, make sure the references are properly set to point to your folder My Documents\Greet\Plugins\API\2015\ and run the build.
-    
+
 Plugin Life Cycle
 -----------------
 
@@ -39,3 +34,8 @@ After an instance of the plugin class is created, the first call to a plugin is 
 After that the plugin will receive multiple calls: when a data file is loaded the onDatabaseLoaded() method is called, when the main user interface of GREET is loaded, the plugin calls will be GetMainButton() and GetMainMenuItems(). You can override these methods to provide the main user interface with a list of Buttons or ToolStripMenuItems that will be loaded into the main window of GREET. There are many calls that can be used and we suggest you to look in the APlugin class for an exhaustive list of all the existing methods.
 
 Finally when the user chooses to close GREET, the plugin is called twice. The first call is onMainFormClosing() at this point we are starting to close the software, but we haven't checked for database changed yet. It is then a good time for your plugin to push data changes before a message asks the user to save or not his changes. The last call is onFinalizePlugin() at this point all resources are unallocated and GREET execution is about to be terminated. 
+
+GREET 2015 API Tools
+====================    
+    
+The tools are running independently from the main GREET application but are using the same libraries. In order to run the tools which are command line executables. Open the solution in Visual Studio, make sure the references are properly set to point to your folder My Documents\Greet\Plugins\API\2015\ and run the build.
