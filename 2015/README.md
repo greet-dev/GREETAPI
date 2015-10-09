@@ -5,7 +5,7 @@ Examples source code can be downloaded and tested by following these instruction
 
     1) Download and install GREET 2015 from our main website : https://greet.es.anl.gov/greet/
     2) After installation check that your My Documents folder contains the GREET DLLs, look into My Documents\Greet\Plugins\API\2015
-	3) Check the references in the different projects, you must configure the references so they point to My Documents\Greet\Plugins\API\2014\Greet.DataStructureV4, My Documents\Greet\Plugins\API\2014\Greet.Model and My Documents\Greet\Plugins\API\2014\Greet.UnitLib3 if you wish to use the current unit system
+	3) Check the references in the different projects, you must configure the references so they point to My Documents\Greet\Plugins\API\2014\Greet.DataStructureV4, My Documents\Greet\Plugins\API\2015\Greet.Model and My Documents\Greet\Plugins\API\2014\Greet.UnitLib3 if you wish to use the current unit system
     4) We need to configure Visual Studio so that it runs GREET and automatically load the plug-ins in debug mode.       This allows you to debug your work using the Visual Studio IDE.
     In order to do so we'll need to configure the Debug and Post-Build actions for all projects under the solution.
     First right click the Example1 project and select "Properties"
@@ -20,7 +20,12 @@ Examples source code can be downloaded and tested by following these instruction
     7) Test your plugin by starting it in Debug mode:
     When running in Debug mode you can put breakpoints in your code and easily follow the execution of the program for your plugin.
     For this example you should see the menu item "Example1" created by the plugin.
-
+    
+GREET 2015 API Tools
+====================    
+    
+    The tools are running independently from the main GREET application but are using the same libraries. In order to run the tools which are command line executables. Open the solution in Visual Studio, make sure the references are properly set to point to your folder My Documents\Greet\Plugins\API\2015\ and run the build.
+    
 Plugin Life Cycle
 -----------------
 
