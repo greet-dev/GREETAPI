@@ -24,7 +24,7 @@ Examples source code can be downloaded and tested by following these instruction
 GREET 2015 API Tools
 ====================    
     
-    The tools are running independently from the main GREET application but are using the same libraries. In order to run the tools which are command line executables. Open the solution in Visual Studio, make sure the references are properly set to point to your folder My Documents\Greet\Plugins\API\2015\ and run the build.
+The tools are running independently from the main GREET application but are using the same libraries. In order to run the tools which are command line executables. Open the solution in Visual Studio, make sure the references are properly set to point to your folder My Documents\Greet\Plugins\API\2015\ and run the build.
     
 Plugin Life Cycle
 -----------------
