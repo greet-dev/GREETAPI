@@ -39,14 +39,18 @@ namespace Example1.UI
                 TreeNode resourceTreeNode = new TreeNode(resource.Name);
                 resourceTreeNode.Tag = resource;
 
-                foreach (IPathway pathway in pathways.AllValues.Where(item => ResultsAccess.controler.CurrentProject.Data.Helper.PathwayMainOutputResouce(item.Id) == resource.Id))
+                foreach (IPathway pathway in pathways.AllValues
+                    .Where(item => ResultsAccess.controler.CurrentProject.Data.Helper.PathwayMainOutputResouce(item.Id) == resource.Id)
+                    .Where(item => item.Discarded == false))
                 {
                     TreeNode pathwayNode = new TreeNode("Pathway: "+ pathway.Name);
                     pathwayNode.Tag = pathway;
                     resourceTreeNode.Nodes.Add(pathwayNode);
                 }
 
-                foreach (IMix mix in mixes.AllValues.Where(item => item.MainOutputResourceID == resource.Id))
+                foreach (IMix mix in mixes.AllValues
+                    .Where(item => item.MainOutputResourceID == resource.Id)
+                    .Where(item => item.Discarded == false))
                 {
                     TreeNode mixNode = new TreeNode("Mix: " + mix.Name);
                     mixNode.Tag = mix;

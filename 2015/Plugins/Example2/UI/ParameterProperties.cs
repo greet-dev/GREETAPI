@@ -80,7 +80,17 @@ namespace Example2.UI
                 this.labelDisplayUnit.Text = grp.Units[grp.PreferedUnitIdx].Expression;
                 
                 //Formatting the value using the default unit of the parameter and the user preferences defined in the option of the main GREET preferences windows
-                this.labelGREETValue.Text = ParametersExample.controler.FormatValue(iParameter.GreetValue, grp.SiUnit.Expression, 0);
+                string paramVal = "";
+                try 
+                {
+                    paramVal = ParametersExample.controler.FormatValue(iParameter.GreetValue, grp.SiUnit.Expression, 0);
+                }
+                catch(Exception e)
+                {
+                    paramVal = e.Message;
+                }
+                this.labelGREETValue.Text = paramVal;
+
                 //Here we are using the GREET Value which corresponds to the default value for that parameter provided by the GREET team
                 //When the user changes the value of a parameter, it is only stored in the UserValue field. That way the user has the possiblity
                 //to switch between GREETValue or UserValue for any parameter of the model
@@ -95,7 +105,16 @@ namespace Example2.UI
 
                 //Finds the value that the user wants to use for the calculations for this IParameter (GREETValue or UserValue) and displays it nicely formatted
                 double preferedValue = (iParameter.UseOriginal) ? iParameter.GreetValue : iParameter.UserValue;
-                this.labelFormatedPreferedValue.Text = ParametersExample.controler.FormatValue(preferedValue, grp.SiUnit.Expression, 0);
+                try 
+                {
+                    paramVal = ParametersExample.controler.FormatValue(preferedValue, grp.SiUnit.Expression, 0);
+                }
+                catch(Exception e)
+                {
+                    paramVal = e.Message;
+                }
+
+                this.labelFormatedPreferedValue.Text = paramVal;
             }
             else{
                 this.labelSiUnit2.Text = this.labelSIUnit.Text = "Unknown Group";

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Greet.DataStructureV4.Interfaces;
+using System;
 
 
 
@@ -55,8 +56,18 @@ namespace Example1.UI
             {
                 IValue quantity = emissionGroups[ghgGroupID];
                 //Format the value nicely using the quantity and the unit as well as the preferences defined by the user in the main UI GREET preferences
-                this.labelGHGs.Text = ResultsAccess.controler.FormatValue(quantity.Value, quantity.UnitExpression, 0)
+                string GHGVal = "";
+                try
+                { 
+                    GHGVal =  ResultsAccess.controler.FormatValue(quantity.Value, quantity.UnitExpression, 0)
                     + " or " + ResultsAccess.controler.FormatValue(quantity.Value, quantity.UnitExpression, 1, false);
+                }
+                catch (Exception e) 
+                {
+                    GHGVal = e.Message;
+                };
+
+                this.labelGHGs.Text = GHGVal;
             }
 
             //Displays the functional unit for this results, very important in order to know if we are looking at results

@@ -266,6 +266,7 @@ namespace CalculatorBatch
                 System.IO.File.WriteAllText("Results-" + pair.Key.SourceType.ToString() + "-" + pair.Key.SourceMixOrPathwayID.ToString() + ".txt", value);
             }
             #endregion
+            Console.ReadKey();
         }
 
         /// <summary>
